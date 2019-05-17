@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
 source "https://rubygems.org"
 
-gem "evohome"
-gem "influxdb"
+gem "httparty", "0.15.6"
+gem "evohome", "1.0.0"
+gem "influxdb", "0.5.2"
