@@ -7,7 +7,7 @@ Updated for InfluxDBv2.
 ## How to run
 ```
 $ docker run -d \
- -e EVOHOME_APPLICATION_ID="<EvoHome Applicaiton ID>" \
+ -e EVOHOME_CONSUMER_KEY="<EvoHome Consumer Key>" \
  -e EVOHOME_USERNAME="<EvoHome USERNAME>" \
  -e EVOHOME_PASSWORD="<EvoHome PASSWORD>" \
  -e INFLUXDB2_HOST="<INFLUXDBv2 SERVER>" \
@@ -18,3 +18,13 @@ $ docker run -d \
  --name "evohome-to-influxdbv2" \
 dbsqp/evohome-to-influxdbv2:latest
 ```
+
+## Setup Evohome Consumer Key
+
+1. Sign up at honeywell developer home: https://developer.honeywellhome.com
+2. Create a new app, use as callback url: 'none'
+3. Click on the app name to see the generated consumer key and consumer secret
+
+
+
+
