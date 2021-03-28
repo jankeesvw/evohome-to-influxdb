@@ -16,12 +16,3 @@ $ docker run -d \
  --name "evohome-to-influxdbv2" \
 dbsqp/evohome-to-influxdbv2:latest
 ```
-
-INFLUX_DATABASE \
-INFLUX_USERNAME \
-INFLUX_PASSWORD \
-INFLUX_HOST \
-  
-EMAIL=email-adres-for-honeywell \
-PASSWORD=password-for-honeywell \
-APP=apikey-for-honeywell
