@@ -3,7 +3,7 @@ RUN mkdir /usr/src/app
 ADD . /usr/src/app/
 WORKDIR /usr/src/app/
 COPY Gemfile .
-COPY Gemfile.lock .
+#COPY Gemfile.lock .
 RUN chown -R nobody:nogroup .
 RUN bundle install
 COPY main.rb .
