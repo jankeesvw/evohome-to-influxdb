@@ -1,3 +1,4 @@
+ARG ARCH=
 FROM ruby:2.4.2
 RUN mkdir /usr/src/app
 ADD . /usr/src/app/
