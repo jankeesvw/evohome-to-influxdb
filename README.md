@@ -5,7 +5,7 @@ This is a docker container that pushes data from the Honeywell Evohome API to In
 ## How to run
 ```
 $ docker run -d \
- -e EVOHOME_API_KEY="<EvoHome API Key>" \
+ -e EVOHOME_APPLICATION_ID="<EvoHome Applicaiton ID>" \
  -e EVOHOME_USERNAME="<EvoHome USERNAME>" \
  -e EVOHOME_PASSWORD="<EvoHome PASSWORD>" \
  -e INFLUXDB2_HOST="<INFLUXDBv2 SERVER>" \
