@@ -1,4 +1,4 @@
-# Evohome-InfluxDBv2
+# evohome-influxdbv2
 
 This is a docker container that pushes data from the Honeywell Evohome API to InfluxDB. Based on work of jankeesvw [evohome-to-influxdb] (https://github.com/jankeesvw/evohome-to-influxdb)
 
