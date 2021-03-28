@@ -6,11 +6,11 @@ Bundler.require(:default)
 
 require "evohome"
 
-email = ENV["EMAIL"]
-password = ENV["PASSWORD"]
-application_id = ENV["APP"]
+evohome_username = ENV["EVOHOME_USERNAME"]
+evohome_password = ENV["EVOHOME_PASSWORD"]
+evohome_application_id = ENV["EVOHOME_APPLICATION_ID"]
 
-evohome = Evohome.new(username: email, password: password, application_id: application_id)
+evohome = Evohome.new(username: evohome_username, password: evohome_password, application_id: evohome_application_id)
 evohome.connect!
 
 puts ENV["HOST"]
