@@ -15,16 +15,23 @@ evohome.connect!
 
 puts ENV["HOST"]
 
+influxdb2_host = ENV["INFLUXDB2_HOST"]
+influxdb2_port = ENV["INFLUXDB2_PORT"]
+influxdb2_org = ENV["INFLUXDB2_ORG"]
+influxdb2_bucket = ENV["INFLUXDB2_BUCKET"]
+influxdb2_token = ENV["INFLUXDB2_TOKEN"]
 
-influxdb = InfluxDB::Client.new(ENV["INFLUX_DATABASE"], { host: ENV["INFLUX_HOST"],
-                                                          username: ENV["INFLUX_USERNAME"],
-                                                          password: ENV["INFLUX_PASSWORD"],
-                                                          time_precision: "s" })
+influxdb2_url = "http://" + influxdb2_host + ":" + influxdb2_port
+
+puts "influxdb2_url: " influxdb2_url
+
+influxdb = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, precision: InfluxDB2::WritePrecision::NANOSECOND)
 
 puts "Starting script"
 
 loop do
   data = []
+  write_api = client.create_write_api
 
   evohome.thermostats.map do |thermostat|
     data.push({
@@ -34,7 +41,8 @@ loop do
               })
   end
 
-  influxdb.write_points(data)
+  #influxdb.write_points(data)
+  write_api.write(data: data)
 
   puts "Written to InfluxDB: #{data}"
 
