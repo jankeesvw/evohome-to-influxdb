@@ -8,7 +8,7 @@ require "evohome"
 
 evohome_username = ENV["EVOHOME_USERNAME"]
 evohome_password = ENV["EVOHOME_PASSWORD"]
-evohome_application_id = ENV["EVOHOME_APPLICATION_ID"]
+evohome_application_id = ENV["EVOHOME_CONSUMER_KEY"]
 
 evohome = Evohome.new(username: evohome_username, password: evohome_password, application_id: evohome_application_id)
 evohome.connect!
