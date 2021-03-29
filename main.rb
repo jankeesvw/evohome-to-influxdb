@@ -5,15 +5,30 @@ require "bundler"
 Bundler.require(:default)
 
 require "evohome"
+require 'influxdb-client'
+require 'httparty'
 
-evohome_username = ENV["EVOHOME_USERNAME"]
+
+DEBUG = ENV["DEBUG"]
+
+if DEBUG=="true"
+	debug = true
+else
+	debug = false
+end
+
+puts "debug="+DEBUG if debug
+
+delay = 60
+
+
+evohome_username = ENV["EVOHOME_EMAIL"]
 evohome_password = ENV["EVOHOME_PASSWORD"]
-evohome_application_id = ENV["EVOHOME_CONSUMER_KEY"]
+evohome_application_id = ENV["EVOHOME_APP_ID"]
 
 evohome = Evohome.new(username: evohome_username, password: evohome_password, application_id: evohome_application_id)
 evohome.connect!
 
-puts ENV["HOST"]
 
 influxdb2_host = ENV["INFLUXDB2_HOST"]
 influxdb2_port = ENV["INFLUXDB2_PORT"]
@@ -23,28 +38,41 @@ influxdb2_token = ENV["INFLUXDB2_TOKEN"]
 
 influxdb2_url = "http://" + influxdb2_host + ":" + influxdb2_port
 
-puts "influxdb2_url: " influxdb2_url
+puts "influxdb2_url = "+influxdb2_url if debug
 
-influxdb = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, precision: InfluxDB2::WritePrecision::NANOSECOND)
+client = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, use_ssl: false, precision: InfluxDB2::WritePrecision::NANOSECOND)
 
-puts "Starting script"
 
 loop do
-  data = []
-  write_api = client.create_write_api
+  puts "Write Points" if debug
 
-  evohome.thermostats.map do |thermostat|
-    data.push({
-                series: "Thermostat",
-                tags: { name: thermostat.name },
-                values: { temperature: thermostat.temperature, temperature_setpoint: thermostat.temperature_setpoint }
-              })
+	write_api = client.create_write_api
+
+	evohome.thermostats.map do |thermostat|
+
+		point = InfluxDB2::Point.new(name: 'Temperature')
+                        .add_tag('host', thermostat.name)
+                        .add_tag('source', 'Evohome')
+                        .add_field('value', thermostat.temperature)
+		puts point.to_line_protocol	if debug
+		write_api.write(data: point)
+
+		point = InfluxDB2::Point.new(name: 'Temperature-Setpoint')
+                        .add_tag('host', thermostat.name)
+                        .add_tag('source', 'Evohome')
+                        .add_field('value', thermostat.temperature_setpoint)
+		puts point.to_line_protocol if debug
+		write_api.write(data: point)
+    
   end
+  puts 'DONE'
 
-  #influxdb.write_points(data)
-  write_api.write(data: data)
+  print "Wait: " if debug
+	while delay > 0
+		print delay.to_s+'..' if debug
+  	delay = delay - 5
+    sleep 5
+	end
+  puts 'DONE'
 
-  puts "Written to InfluxDB: #{data}"
-
-  sleep 60
 end
