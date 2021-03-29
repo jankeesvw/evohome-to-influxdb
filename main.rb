@@ -36,7 +36,7 @@ influxdb2_org = ENV["INFLUXDB2_ORG"]
 influxdb2_bucket = ENV["INFLUXDB2_BUCKET"]
 influxdb2_token = ENV["INFLUXDB2_TOKEN"]
 
-influxdb2_url = "http://" + influxdb2_host + ":" + influxdb2_port
+influxdb2_url = "http://" + influxdb2_host + ":" + influxdb2_port.to_s
 
 
 # evohome
@@ -52,7 +52,7 @@ client = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2
 
 loop do
   puts "Write Points" if debug
-
+	
 	write_api = client.create_write_api
 
 	evohome.thermostats.map do |thermostat|
