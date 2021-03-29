@@ -7,24 +7,23 @@ Updated for InfluxDBv2.
 ## How to run
 ```
 $ docker run -d \
- -e EVOHOME_CONSUMER_KEY="<EvoHome Consumer Key>" \
- -e EVOHOME_USERNAME="<EvoHome USERNAME>" \
- -e EVOHOME_PASSWORD="<EvoHome PASSWORD>" \
+ -e EVOHOME_APP_ID="<evohome API application id>" \
+ -e EVOHOME_USERNAME="<evohome email>" \
+ -e EVOHOME_PASSWORD="<evohome password>" \
  -e INFLUXDB2_HOST="<INFLUXDBv2 SERVER>" \
  -e INFLUXDB2_PORT="8086" \
  -e INFLUXDB2_ORG="" \
  -e INFLUXDB2_TOKEN="" \
- -e INFLUXDB2_BUCKET="netatmo" \
+ -e INFLUXDB2_BUCKET="" \
  --name "evohome-influxdbv2" \
 dbsqp/evohome-influxdbv2:latest
 ```
 
-## Setup Evohome Consumer Key
+## Evohome Application ID
 
-1. Sign up at honeywell developer home: https://developer.honeywellhome.com
-2. Create a new app, use as callback url: 'none'
-3. Click on the app name to see the generated consumer key and consumer secret
+Unsure where and how to register for an API access for HoneyWell Totatal hoem connect. However using the following ID found online works combined with user email and password used to access https://international.mytotalconnectcomfort.com.
 
+APP_ID = 91db1612-73fd-4500-91b2-e63b069b185c
 
 
 
