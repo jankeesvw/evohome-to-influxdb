@@ -15,8 +15,8 @@ $ docker run -d \
  -e INFLUXDB2_ORG="" \
  -e INFLUXDB2_TOKEN="" \
  -e INFLUXDB2_BUCKET="netatmo" \
- --name "evohome-to-influxdbv2" \
-dbsqp/evohome-to-influxdbv2:latest
+ --name "evohome-influxdbv2" \
+dbsqp/evohome-influxdbv2:latest
 ```
 
 ## Setup Evohome Consumer Key
