@@ -9,6 +9,7 @@ require 'influxdb-client'
 require 'httparty'
 
 
+# debug
 DEBUG = ENV["DEBUG"]
 
 if DEBUG=="true"
@@ -22,14 +23,13 @@ puts "debug="+DEBUG if debug
 delay = 60
 
 
+# evohome envionment variables
 evohome_username = ENV["EVOHOME_EMAIL"]
 evohome_password = ENV["EVOHOME_PASSWORD"]
 evohome_application_id = ENV["EVOHOME_APP_ID"]
 
-evohome = Evohome.new(username: evohome_username, password: evohome_password, application_id: evohome_application_id)
-evohome.connect!
 
-
+# influxDBv2 envionment variables
 influxdb2_host = ENV["INFLUXDB2_HOST"]
 influxdb2_port = ENV["INFLUXDB2_PORT"]
 influxdb2_org = ENV["INFLUXDB2_ORG"]
@@ -38,6 +38,13 @@ influxdb2_token = ENV["INFLUXDB2_TOKEN"]
 
 influxdb2_url = "http://" + influxdb2_host + ":" + influxdb2_port
 
+
+# evohome
+evohome = Evohome.new(username: evohome_username, password: evohome_password, application_id: evohome_application_id)
+evohome.connect!
+
+
+# influxDBv2
 puts "influxdb2_url = "+influxdb2_url if debug
 
 client = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, use_ssl: false, precision: InfluxDB2::WritePrecision::NANOSECOND)
