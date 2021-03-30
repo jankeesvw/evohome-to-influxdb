@@ -21,7 +21,7 @@ dbsqp/evohome-influxdbv2:latest
 
 ## Evohome Application ID
 
-Unsure where and how to register for an API access for HoneyWell Totatal hoem connect. However using the following ID found online works combined with user email and password used to access https://international.mytotalconnectcomfort.com.
+Unsure where and how to register for an API access for Honeywell Home | Total Connect Comfort. However using the following ID found online works combined with user email and password used to access https://international.mytotalconnectcomfort.com.
 
 APP_ID = 91db1612-73fd-4500-91b2-e63b069b185c
 
