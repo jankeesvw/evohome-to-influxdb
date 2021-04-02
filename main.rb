@@ -75,9 +75,10 @@ loop do
   puts 'DONE'
 
   print "Wait: " if debug
-	while delay > 0
-		print delay.to_s+'..' if debug
-  	delay = delay - 5
+	togo = delay
+	while togo > 0
+		print togo.to_s+'..' if debug
+  	togo = togo - 5
     sleep 5
 	end
   puts 'DONE'
