@@ -4,7 +4,7 @@ while :
 do
   date
   echo "Start Loop"
-  python3 homekit2influxdb.py
+  ruby evohome2influxdb.rb
   RET=$?
   if [ ${RET} -ne 0 ];
   then
