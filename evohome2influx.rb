@@ -20,8 +20,6 @@ end
 
 puts "debug="+DEBUG if debug
 
-delay = 60
-
 
 # evohome envionment variables
 evohome_username = ENV["EVOHOME_EMAIL"]
@@ -47,40 +45,23 @@ evohome.connect!
 # influxDBv2
 puts "influxdb2_url = "+influxdb2_url if debug
 
-client = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, use_ssl: false, precision: InfluxDB2::WritePrecision::NANOSECOND)
+client = InfluxDB2::Client.new(influxdb2_url, influxdb2_token, bucket: influxdb2_bucket, org: influxdb2_org, use_ssl: false, precision: InfluxDB2::WritePrecision::NANOSECOND)	
+write_api = client.create_write_api
 
+puts "Write Points" if debug
+evohome.thermostats.map do |thermostat|
+	point = InfluxDB2::Point.new(name: 'Temperature')
+		.add_tag('host', thermostat.name)
+		.add_tag('source', 'Evohome')
+		.add_field('value', thermostat.temperature)
+	puts point.to_line_protocol if debug
+	write_api.write(data: point)
 
-loop do
-  puts "Write Points" if debug
-	
-	write_api = client.create_write_api
-
-	evohome.thermostats.map do |thermostat|
-
-		point = InfluxDB2::Point.new(name: 'Temperature')
-                        .add_tag('host', thermostat.name)
-                        .add_tag('source', 'Evohome')
-                        .add_field('value', thermostat.temperature)
-		puts point.to_line_protocol	if debug
-		write_api.write(data: point)
-
-		point = InfluxDB2::Point.new(name: 'Temperature-Setpoint')
-                        .add_tag('host', thermostat.name)
-                        .add_tag('source', 'Evohome')
-                        .add_field('value', thermostat.temperature_setpoint)
-		puts point.to_line_protocol if debug
-		write_api.write(data: point)
-    
-  end
-  puts 'DONE'
-
-  print "Wait: " if debug
-	togo = delay
-	while togo > 0
-		print togo.to_s+'..' if debug
-  	togo = togo - 5
-    sleep 5
-	end
-  puts 'DONE'
-
+	point = InfluxDB2::Point.new(name: 'Temperature-Setpoint')
+		.add_tag('host', thermostat.name)
+		.add_tag('source', 'Evohome')
+		.add_field('value', thermostat.temperature_setpoint)
+	puts point.to_line_protocol if debug
+	write_api.write(data: point)
 end
+puts 'DONE'
